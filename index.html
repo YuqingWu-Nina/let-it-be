@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Let It Be — a gentle interactive writing space." />
+    <title>Let It Be</title>
+    <link rel="stylesheet" href="style.css?v=3" />
+    <style>
+      /* The altered letters are only a display layer; the textarea still holds the original writing. */
+      body[data-state="stuck"] #writingField { color: transparent; caret-color: #36564b; text-shadow: none; }
+      body[data-state="stuck"] .glitch-text { display: block; color: #39413d; text-shadow: 1px 0 rgba(168,82,75,.25), -1px 0 rgba(53,103,120,.3); }
+    </style>
+  </head>
+  <body>
+    <main class="app-shell" id="appShell">
+      <section class="screen welcome-screen" id="welcomeScreen" aria-labelledby="pageTitle">
+        <div class="intro-copy">
+          <p class="eyebrow">A small writing ritual</p>
+          <h1 id="pageTitle">Let It Be</h1>
+          <p class="tagline">A little space for imperfect words.</p>
+        </div>
+
+        <div class="prompt-picker" aria-labelledby="pickerTitle">
+          <h2 id="pickerTitle">What would you like to write about today?</h2>
+          <div class="prompt-grid" id="promptGrid" role="list">
+            <button class="prompt-card" type="button" data-prompt="recap" role="listitem">
+              <strong>A little recap</strong><span>How was your day today?</span>
+            </button>
+            <button class="prompt-card" type="button" data-prompt="happy" role="listitem">
+              <strong>A happy moment</strong><span>What made you happy today?</span>
+            </button>
+            <button class="prompt-card" type="button" data-prompt="difficult" role="listitem">
+              <strong>A difficult moment</strong><span>Was there something difficult or upsetting today?</span>
+            </button>
+            <button class="prompt-card" type="button" data-prompt="someone" role="listitem">
+              <strong>Someone on your mind</strong><span>Who is someone you’d like to describe?</span>
+            </button>
+            <button class="prompt-card" type="button" data-prompt="reflection" role="listitem">
+              <strong>A reflection</strong><span>Is there something you’ve been thinking about lately?</span>
+            </button>
+            <button class="prompt-card" type="button" data-prompt="free" role="listitem">
+              <strong>Free writing</strong><span>Write about anything you’d like.</span>
+            </button>
+          </div>
+          <p class="selection-help" id="selectionHelp" aria-live="polite">Choose a prompt to begin.</p>
+          <button class="primary-button" id="startButton" type="button" disabled>Start writing <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <section class="screen writing-screen is-hidden" id="writingScreen" aria-labelledby="writingTitle">
+        <header class="writer-header">
+          <button class="text-button" id="changePrompt" type="button">← Change prompt</button>
+          <div class="writer-title"><span class="eyebrow">Let It Be</span><span id="writingTitle" class="sr-only">Writing space</span></div>
+          <label class="sound-control" for="soundToggle"><input id="soundToggle" type="checkbox" /> Sound <span class="sound-status">off</span></label>
+        </header>
+
+        <p class="kind-message" id="kindMessage" aria-live="polite"></p>
+        <div class="stage" id="stage">
+          <div class="whispers" id="whispers" aria-hidden="true"></div>
+          <div class="writing-object" id="writingObject">
+            <article class="paper" id="paper">
+              <p class="paper-prompt" id="paperPrompt"></p>
+              <div class="writing-field-wrap">
+                <textarea id="writingField" aria-label="Your writing" spellcheck="true" placeholder="Begin wherever you are…"></textarea>
+                <div class="glitch-text" id="glitchText" aria-hidden="true"></div>
+              </div>
+            </article>
+
+            <div class="typewriter" id="typewriter" aria-hidden="true">
+              <div class="carriage">
+                <span class="carriage-knob left"></span><span class="carriage-rail"></span><span class="carriage-knob right"></span>
+                <span class="carriage-lever"></span><span class="paper-guide"></span>
+              </div>
+              <div class="typewriter-top">
+                <div class="typebasket"><span></span><span></span><span></span></div>
+                <div class="top-highlight"></div>
+              </div>
+              <div class="typewriter-body">
+                <div class="brand"><span>LET IT BE</span><small>PORTABLE</small></div>
+                <div class="key-well">
+                  <div class="key-row number-row">
+                    <span class="type-key small" data-key="1">1</span><span class="type-key small" data-key="2">2</span><span class="type-key small" data-key="3">3</span><span class="type-key small" data-key="4">4</span><span class="type-key small" data-key="5">5</span><span class="type-key small" data-key="6">6</span><span class="type-key small" data-key="7">7</span><span class="type-key small" data-key="8">8</span><span class="type-key small" data-key="9">9</span><span class="type-key small" data-key="0">0</span><span class="type-key function-key backspace" data-key="BACKSPACE">⌫</span>
+                  </div>
+                  <div class="key-row qwerty-row">
+                    <span class="type-key function-key tab" data-key="TAB">TAB</span><span class="type-key" data-key="Q">Q</span><span class="type-key" data-key="W">W</span><span class="type-key" data-key="E">E</span><span class="type-key" data-key="R">R</span><span class="type-key" data-key="T">T</span><span class="type-key" data-key="Y">Y</span><span class="type-key" data-key="U">U</span><span class="type-key" data-key="I">I</span><span class="type-key" data-key="O">O</span><span class="type-key" data-key="P">P</span>
+                  </div>
+                  <div class="key-row home-row">
+                    <span class="type-key function-key shift" data-key="SHIFT">⇧</span><span class="type-key" data-key="A">A</span><span class="type-key" data-key="S">S</span><span class="type-key" data-key="D">D</span><span class="type-key" data-key="F">F</span><span class="type-key" data-key="G">G</span><span class="type-key" data-key="H">H</span><span class="type-key" data-key="J">J</span><span class="type-key" data-key="K">K</span><span class="type-key" data-key="L">L</span><span class="type-key function-key enter" data-key="ENTER">↵</span>
+                  </div>
+                  <div class="key-row bottom-row">
+                    <span class="type-key function-key shift" data-key="SHIFT">⇧</span><span class="type-key" data-key="Z">Z</span><span class="type-key" data-key="X">X</span><span class="type-key" data-key="C">C</span><span class="type-key" data-key="V">V</span><span class="type-key" data-key="B">B</span><span class="type-key" data-key="N">N</span><span class="type-key" data-key="M">M</span><span class="type-key function-key period" data-key=".">.</span><span class="type-key function-key shift" data-key="SHIFT">⇧</span>
+                  </div>
+                  <div class="key-row space-row"><span class="type-key function-key alt">ALT</span><span class="type-key space-key" data-key="SPACE">SPACE</span><span class="type-key function-key alt">ALT</span></div>
+                </div>
+              </div>
+              <div class="typewriter-base"><span></span></div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="writer-controls">
+          <button class="let-be-button" id="letBeButton" type="button">Let it be</button>
+          <button class="text-button start-over" id="startOver" type="button">Start over</button>
+        </footer>
+      </section>
+    </main>
+
+    <dialog id="confirmDialog" aria-labelledby="dialogTitle">
+      <form method="dialog">
+        <p class="eyebrow">Start over?</p>
+        <h2 id="dialogTitle">Clear this page?</h2>
+        <p>Your current writing will be removed. This cannot be undone.</p>
+        <div class="dialog-actions"><button class="text-button" value="cancel">Keep writing</button><button class="danger-button" id="confirmClear" value="confirm">Clear writing</button></div>
+      </form>
+    </dialog>
+    <script src="script.js?v=7"></script>
+  </body>
+</html>
